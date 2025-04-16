@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app",
+    "dev": "node --watch --env-file=.env app"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "crypto": "^1.0.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.0"
