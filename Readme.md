@@ -1,4 +1,4 @@
-# BackendTest Nexa - Prio
+# BackendTest Nexa - Prio Pambudi
 
 ## 🧾 Deskripsi
 
@@ -25,8 +25,8 @@ Project ini adalah hasil dari pengerjaan tes backend Nexa yang menggunakan Node.
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/username/BackendTest-Nexa-Prio.git
-cd BackendTest-Nexa-Prio
+git clone https://github.com/priopambudi/BackendTest-Nexa-Prio-Pambudi.git
+cd BackendTest-Nexa-Prio-Pambudi
 ```
 
 ### 2. Jalankan dengan Docker
@@ -34,8 +34,8 @@ cd BackendTest-Nexa-Prio
 a. Build dan Run
 
 ```
-docker build -t backend-nexa .
-docker run -p 3000:3000 backend-nexa
+docker build -t backend-nexa-prio .
+docker run -p 8080:8080 backend-nexa-prio
 ```
 
 b. Atau gunakan Docker Compose
@@ -77,6 +77,12 @@ Berfungsi untuk menampilkan data karyawan dengan format:
 - `GET /api/karyawan/list`. Digunakan untuk menampilkan list, baik menggunakan keyword ataupun tidak, serta menggunakan parameter start dan count untuk pagination.
 - `PUT /api/karyawan/update/:nip`. Digunakan untuk melakukan update terhadap data karyawan dengan parameter berdasarkan nip.
 - `PUT /api/karyawan/disable/:nip`. Digunakan untuk menonaktifkan karyawan dengan nip sebagai paramete.
+
+## 📦 Deployment
+
+Dockerfile (Alpine)
+
+Project ini dibangun dengan base image node:alpine. Script start sudah didefinisikan di package.json.
 
 ## 🧪 Testing
 

@@ -1,6 +1,7 @@
 const db = require("../config/db");
 const jwt = require("jsonwebtoken");
 const { decrypt } = require("../utils/encrypt");
+require("dotenv").config();
 
 exports.getToken = async (req, res) => {
   if (!req.body)
