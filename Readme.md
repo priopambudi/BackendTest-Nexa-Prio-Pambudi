@@ -32,7 +32,8 @@ cd BackendTest-Nexa-Prio-Pambudi
 ### 2. Jalankan dengan Docker
 
 ```
-docker-compose up --build
+docker build --no-cache -t backendtest-nexa-prio .
+docker run -p 8080:8080 backendtest-nexa-prio
 ```
 
 ### 3. Jalankan tanpa Docker (Opsional untuk lokal)
