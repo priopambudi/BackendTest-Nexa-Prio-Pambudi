@@ -31,20 +31,31 @@ exports.registerKaryawan = async (req, res) => {
     const nip = await generateNip();
 
     // Cek NIP sudah ada (shouldn't happen, but good practice)
-    const [cekNip] = await db.query("SELECT * FROM karyawan WHERE nip = ?", [
-      nip,
-    ]);
-    if (cekNip.length > 0) {
-      return res
-        .status(409)
-        .json({ message: "NIP sudah ada, silakan coba lagi" });
-    }
+    // const [cekNip] = await db.query("SELECT * FROM karyawan WHERE nip = ?", [
+    //   nip,
+    // ]);
+    // if (cekNip.length > 0) {
+    //   return res
+    //     .status(409)
+    //     .json({ message: "NIP sudah ada, silakan coba lagi" });
+    // }
 
     // Simpan data
-    await db.query(
-      `INSERT INTO karyawan (nip, nama, alamat, gend, tgl_lahir, photo, insert_at, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [nip, nama, alamat, gend, tgl_lahir, photo, new Date(), id_admin]
+    // await db.query(
+    //   `INSERT INTO karyawan (nip, nama, alamat, gend, tgl_lahir, photo, insert_at, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    //   [nip, nama, alamat, gend, tgl_lahir, photo, new Date(), id_admin]
+    // );
+    const [resultSets] = await db.query(
+      `CALL sp_add_kary_prio(?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [nip, nama, alamat, gend, photo, tgl_lahir, 1, "datatest", id_admin]
     );
+
+    const status = resultSets?.[0][0].status;
+    if (status !== "success") {
+      return res.status(400).json({
+        message: `Gagal menambahkan karyawan. Error ${status}`,
+      });
+    }
 
     res.status(201).json({ message: "Karyawan berhasil ditambahkan", nip });
   } catch (error) {
