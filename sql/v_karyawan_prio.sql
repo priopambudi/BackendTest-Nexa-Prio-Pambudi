@@ -2,7 +2,6 @@ USE gmedia_democase;
 
 CREATE OR REPLACE VIEW karyawan_prio AS
 SELECT
-  ROW_NUMBER() OVER (ORDER BY id) AS No,
   nip AS Nip,
   nama AS Nama,
   alamat AS Alamat,
