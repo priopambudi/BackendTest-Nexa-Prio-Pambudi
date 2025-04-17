@@ -155,3 +155,30 @@ exports.updateKaryawan = async (req, res) => {
     res.status(500).json({ message: "Terjadi kesalahan saat update data" });
   }
 };
+
+exports.disableKaryawan = async (req, res) => {
+  try {
+    const { nip } = req.params;
+
+    // Validasi
+    if (!nip) {
+      return res.status(400).json({ message: "NIP wajib diisi" });
+    }
+
+    // Cek apakah NIP ada
+    const [rows] = await db.query("SELECT * FROM karyawan WHERE nip = ?", [
+      nip,
+    ]);
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Data karyawan tidak ditemukan" });
+    }
+
+    // Update data
+    await db.query(`UPDATE karyawan SET status = 9 WHERE nip = ?`, [nip]);
+
+    res.json({ message: "Data karyawan berhasil dinonaktifkan" });
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ message: "Terjadi kesalahan saat update data" });
+  }
+};
