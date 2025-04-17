@@ -122,3 +122,36 @@ exports.getKaryawanList = async (req, res) => {
     res.status(500).json({ message: "Terjadi kesalahan saat mengambil data" });
   }
 };
+
+exports.updateKaryawan = async (req, res) => {
+  try {
+    const { nip } = req.params;
+    const { nama, alamat, gend, tgl_lahir, photo } = req.body;
+
+    // Validasi
+    if (!nip || !nama || !alamat || !gend || !tgl_lahir || !photo) {
+      return res.status(400).json({ message: "Semua field wajib diisi" });
+    }
+
+    // Escape special character jika perlu
+    const safeNama = nama.replace(/[%_]/g, "\\$&");
+    const safeAlamat = alamat.replace(/[%_]/g, "\\$&");
+
+    // Cek apakah NIP ada
+    const [cek] = await db.query("SELECT * FROM karyawan WHERE nip = ?", [nip]);
+    if (cek.length === 0) {
+      return res.status(404).json({ message: "Data karyawan tidak ditemukan" });
+    }
+
+    // Update data
+    await db.query(
+      `UPDATE karyawan SET nama = ?, alamat = ?, gend = ?, tgl_lahir = ?, photo = ? WHERE nip = ?`,
+      [safeNama, safeAlamat, gend, tgl_lahir, photo, nip]
+    );
+
+    res.json({ message: "Data karyawan berhasil diupdate" });
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ message: "Terjadi kesalahan saat update data" });
+  }
+};
